@@ -5,6 +5,11 @@
       elevation="8"
       max-width="448"
       rounded="lg"
+      @keydown.enter="() => {
+        if (store.login(username, password)) {
+          closeModal();
+        }
+      }"
     >
       <div class="d-flex justify-end">
         <v-btn
