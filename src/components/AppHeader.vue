@@ -6,9 +6,18 @@
     scroll-threshold="68"
   >
     <v-container class="d-flex justify-space-between align-center wrapper">
-      <v-app-bar-title class="text-h5">
-        사이렌 오더
-      </v-app-bar-title>
+      <v-hover>
+        <template #default="{isHovering, props}">
+          <div
+            v-bind="props"
+            class="text-h5 fit-content"
+            :class="isHovering && 'pointer'"
+            @click="router.push('/')"
+          >
+            사이렌 오더
+          </div>
+        </template>
+      </v-hover>
       <v-btn
         v-if="!store.accessToken"
         append-icon="mdi-login"
@@ -68,3 +77,11 @@ const callbacks = [
   }
 ];
 </script>
+<style scoped>
+.fit-content {
+  width: fit-content;
+}
+.pointer {
+  cursor: pointer;
+}
+</style>
