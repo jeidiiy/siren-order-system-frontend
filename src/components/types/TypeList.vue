@@ -4,27 +4,24 @@
     <v-row>
       <v-col
         v-for="type in types"
-        :key="type.description"
+        :key="type.id"
         cols="4"
       >
-        <TypeCard :info="type" />
+        <TypeListItem :info="type" />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script setup>
-import {ref, onMounted} from 'vue';
-import {onBeforeRouteUpdate, useRoute} from "vue-router";
-import api from "@/apis/config";
-import TypeCard from "@/components/TypeCard.vue";
+import api from '@/apis/config';
 
+const types = ref([]);
 const route = useRoute();
 const category = getCategory(route);
-const types = ref(null);
 
 function getCategory(route) {
-  return route.query.category;
+  return route.query.category || 'beverage';
 }
 
 async function fetchTypes(category) {
@@ -36,7 +33,8 @@ async function fetchTypes(category) {
   }
 }
 
-onMounted(() => fetchTypes(category));
+fetchTypes(category);
+
 // 현재 카테고리를 다시 클릭한 경우엔 데이터를 가져오지 않도록 처리
 onBeforeRouteUpdate((to, from) => {
   if (getCategory(to) !== getCategory(from)) {
