@@ -4,7 +4,7 @@
     max-width="270"
     height="270"
     class="mx-auto"
-    @click="$router.push(`/products?typeId=${id}&category=${$route.query.category}`)"
+    @click="$router.push(`/products?typeId=${id}&category=${category}`)"
   >
     <v-img
       color="surface-variant"
@@ -22,6 +22,8 @@
 </template>
 
 <script setup>
+import useCategoryStore from "@/stores/category";
+
 const props = defineProps({
   info: {
     type: {
@@ -33,8 +35,10 @@ const props = defineProps({
     default: () => ({id: 0, title: 'title', description: 'description'})
   }
 });
+const categoryStore = useCategoryStore();
 
 const {id, title, description} = props.info;
+const category = categoryStore.category;
 </script>
 <style scoped>
 .padding-top {
