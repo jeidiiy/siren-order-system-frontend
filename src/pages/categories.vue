@@ -1,43 +1,14 @@
 <template>
-  <v-container class="pt-0">
-    <CategorySelector />
-    <v-row>
-      <v-col
-        v-for="type in types"
-        :key="type.description"
-        cols="4"
-      >
-        <TypeCard :info="type" />
-      </v-col>
-    </v-row>
-  </v-container>
+  <ErrorBoundary>
+    <Suspense>
+      <template #default>
+        <TypeList />
+      </template>
+      <template #fallback>
+        <LoadingSpinner />
+      </template>
+    </Suspense>
+  </ErrorBoundary>
 </template>
-
 <script setup>
-import api from "@/apis/config";
-
-const route = useRoute();
-const category = getCategory(route);
-const types = ref(null);
-
-function getCategory(route) {
-  return route.query.category;
-}
-
-async function fetchTypes(category) {
-  try {
-    const res = await api.get(`/api/v1/types/${category}`);
-    types.value = res.data;
-  } catch (error) {
-    throw new Error(error);
-  }
-}
-
-onMounted(() => fetchTypes(category));
-// 현재 카테고리를 다시 클릭한 경우엔 데이터를 가져오지 않도록 처리
-onBeforeRouteUpdate((to, from) => {
-  if (getCategory(to) !== getCategory(from)) {
-    fetchTypes(getCategory(to));
-  }
-});
 </script>
