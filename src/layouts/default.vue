@@ -5,8 +5,7 @@
       <router-view />
     </v-container>
   </v-main>
-
-  <AppFooter />
+  <StoreCartBar />
 </template>
 
 <script setup>
