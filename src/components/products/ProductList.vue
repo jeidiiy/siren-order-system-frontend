@@ -1,6 +1,5 @@
 <template>
   <v-container class="pt-0">
-    <CategorySelector />
     <v-row>
       <v-col
         v-for="product in products"
