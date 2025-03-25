@@ -1,8 +1,9 @@
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
-import CategoryView from "@/pages/CategoryView.vue";
+import TypeView from "@/pages/TypeView.vue";
 import IndexView from "@/pages/IndexView.vue";
 import ProductView from "@/pages/ProductView.vue";
 import StoreView from "@/pages/StoreView.vue";
+import StoreLayout from "@/layouts/StoreLayout.vue";
 
 const routes = [
   {
@@ -10,21 +11,27 @@ const routes = [
     component: DefaultLayout,
     children: [
       {
-        path: '/',
+        path: '',
         component: IndexView,
       },
       {
-        path: '/stores',
-        component: StoreView,
+        path: 'types',
+        component: TypeView,
       },
       {
-        path: '/categories',
-        component: CategoryView,
-      },
-      {
-        path: '/products',
+        path: 'products',
         component: ProductView,
       },
+    ]
+  },
+  {
+    path: '/stores',
+    component: StoreLayout,
+    children: [
+      {
+        path: '',
+        component: StoreView
+      }
     ]
   }
 ];
