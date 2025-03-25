@@ -14,9 +14,7 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
 import api from '@/apis/config';
-import {useRoute} from "vue-router";
 
 const products = ref(null);
 const route = useRoute();

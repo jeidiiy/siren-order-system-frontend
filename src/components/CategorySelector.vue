@@ -32,8 +32,6 @@
 </template>
 
 <script setup>
-import {ref} from 'vue';
-import {useRoute, useRouter} from "vue-router";
 const router = useRouter();
 const route = useRoute();
 const text = ref(route.path === '/' ? 'beverage' : route.query.category);

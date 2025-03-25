@@ -14,7 +14,6 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
 import api from '@/apis/config';
 
 const types = ref(null);

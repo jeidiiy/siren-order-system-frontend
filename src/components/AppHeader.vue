@@ -57,8 +57,6 @@
 </template>
 
 <script setup>
-import {ref} from 'vue';
-import {useRouter} from 'vue-router';
 import {useAppStore} from "@/stores/app";
 import LoginForm from "./LoginForm.vue";
 

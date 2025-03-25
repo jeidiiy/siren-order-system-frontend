@@ -14,10 +14,7 @@
 </template>
 
 <script setup>
-import {ref, onMounted} from 'vue';
-import {onBeforeRouteUpdate, useRoute} from "vue-router";
 import api from "@/apis/config";
-import TypeCard from "@/components/TypeCard.vue";
 
 const route = useRoute();
 const category = getCategory(route);
