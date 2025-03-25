@@ -12,14 +12,17 @@
             v-bind="props"
             class="text-h5 fit-content"
             :class="isHovering && 'pointer'"
-            @click="router.push('/')"
+            @click="() => {
+              router.push('/');
+              categoryStore.changeCategory('beverage');
+            }"
           >
             사이렌 오더
           </div>
         </template>
       </v-hover>
       <v-btn
-        v-if="!store.accessToken"
+        v-if="!authStore.accessToken"
         append-icon="mdi-login"
         @click="dialog = true"
       >
@@ -30,7 +33,7 @@
       <v-menu v-else>
         <template #activator="{props}">
           <v-btn v-bind="props">
-            {{ store.user.username }}
+            {{ authStore.user.username }}
             <v-icon icon="mdi-menu-down" />
           </v-btn>
         </template>
@@ -57,12 +60,14 @@
 </template>
 
 <script setup>
-import {useAppStore} from "@/stores/app";
+import useAuthStore from "@/stores/auth";
+import useCategoryStore from "@/stores/category";
 import LoginForm from "./LoginForm.vue";
 
 const dialog = ref(false);
 const router = useRouter();
-const store = useAppStore();
+const authStore = useAuthStore();
+const categoryStore = useCategoryStore();
 const items = [
   {title: '설정'},
   {title: '로그아웃'}
@@ -70,7 +75,7 @@ const items = [
 const callbacks = [
   () => {}, // TODO: 개인 정보 수정 페이지로 이동하는 콜백 함수 필요
   () => {
-    store.logout();
+    authStore.logout();
     router.push('/');
   }
 ];

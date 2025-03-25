@@ -6,7 +6,7 @@
       max-width="448"
       rounded="lg"
       @keydown.enter="() => {
-        if (store.login(username, password)) {
+        if (authStore.login(username, password)) {
           closeModal();
         }
       }"
@@ -52,7 +52,7 @@
         variant="tonal"
         block
         @click="() => {
-          if (store.login(username, password)) {
+          if (authStore.login(username, password)) {
             closeModal();
           }
         }"
@@ -74,8 +74,8 @@
   </div>
 </template>
 <script setup>
-import {useAppStore} from "@/stores/app";
-const store = useAppStore();
+import useAuthStore from "@/stores/auth";
+const authStore = useAuthStore();
 
 const emit = defineEmits(['close']);
 

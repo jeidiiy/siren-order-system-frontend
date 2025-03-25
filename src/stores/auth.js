@@ -4,7 +4,7 @@ import {defineStore} from 'pinia';
 
 export const BEARER_PREFIX = "Bearer ";
 
-export const useAppStore = defineStore('app', {
+const useAuthStore = defineStore('auth', {
   state: () => ({
     user: {username: null, nickname: null, realname: null},
     accessToken: null,
@@ -51,3 +51,5 @@ export const useAppStore = defineStore('app', {
     }
   }
 });
+
+export default useAuthStore;

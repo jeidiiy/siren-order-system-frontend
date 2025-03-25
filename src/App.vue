@@ -5,9 +5,9 @@
 </template>
 
 <script setup>
-import {useAppStore} from "./stores/app";
-const store = useAppStore();
+import useAuthStore from "./stores/auth";
+const authStore = useAuthStore();
 onMounted(() => {
-  store.silentRefresh();
+  authStore.silentRefresh();
 });
 </script>
