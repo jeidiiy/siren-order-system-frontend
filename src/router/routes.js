@@ -3,7 +3,8 @@ import TypeView from "@/pages/TypeView.vue";
 import IndexView from "@/pages/IndexView.vue";
 import ProductView from "@/pages/ProductView.vue";
 import StoreView from "@/pages/StoreView.vue";
-import StoreLayout from "@/layouts/StoreLayout.vue";
+import OnlyAppHeaderLayout from "@/layouts/OnlyAppHeaderLayout.vue";
+import SignupView from "@/pages/SignupView.vue";
 
 const routes = [
   {
@@ -25,12 +26,16 @@ const routes = [
     ]
   },
   {
-    path: '/stores',
-    component: StoreLayout,
+    path: '/',
+    component: OnlyAppHeaderLayout,
     children: [
       {
-        path: '',
+        path: 'stores',
         component: StoreView
+      },
+      {
+        path: 'signup',
+        component: SignupView
       }
     ]
   }
