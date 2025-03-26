@@ -61,14 +61,12 @@
       </v-btn>
 
       <v-card-text class="text-center">
-        <a
+        <router-link
           class="text-blue text-decoration-none"
-          href="#"
-          rel="noopener noreferrer"
-          target="_blank"
+          to="/signup"
         >
           회원가입 <v-icon icon="mdi-chevron-right" />
-        </a>
+        </router-link>
       </v-card-text>
     </v-card>
   </div>
