@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-onErrorCaptured((error, instance, info) => {
+onErrorCaptured((error) => {
   console.error(error);
   hasError.value = true;
 });

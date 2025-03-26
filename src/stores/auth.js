@@ -20,6 +20,8 @@ const useAuthStore = defineStore('auth', {
         return true;
       } catch (error) {
         // TODO: 에러 처리 필요
+        console.error(error);
+
         return false;
       }
     },
@@ -33,6 +35,8 @@ const useAuthStore = defineStore('auth', {
         return true;
       } catch (error) {
         // TODO: 에러 처리 필요
+        console.error(error);
+
         return false;
       }
     },
@@ -46,6 +50,8 @@ const useAuthStore = defineStore('auth', {
         return true;
       } catch (error) {
         // TODO: 에러 처리 필요
+        console.error(error);
+
         return false;
       }
     }
