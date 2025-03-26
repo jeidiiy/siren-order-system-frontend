@@ -11,7 +11,7 @@
           <div
             v-bind="props"
             class="text-h5 fit-content"
-            :class="isHovering && 'pointer'"
+            :class="isHovering && 'cursor-pointer'"
             @click="() => {
               router.push('/');
               categoryStore.changeCategory('beverage');
@@ -80,11 +80,9 @@ const callbacks = [
   }
 ];
 </script>
+
 <style scoped>
 .fit-content {
   width: fit-content;
-}
-.pointer {
-  cursor: pointer;
 }
 </style>
