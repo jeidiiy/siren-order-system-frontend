@@ -1,7 +1,11 @@
 <template>
   <v-container class="pt-0">
     <v-row>
-      <v-col v-for="type in types" :key="type.id" cols="4">
+      <v-col
+        v-for="type in types"
+        :key="type.id"
+        cols="4"
+      >
         <TypeListItem :info="type" />
       </v-col>
     </v-row>

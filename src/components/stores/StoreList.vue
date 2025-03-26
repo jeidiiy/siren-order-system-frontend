@@ -1,7 +1,11 @@
 <template>
   <v-container>
     <v-row>
-      <v-col v-for="store in filteredStores" :key="store.storeId" cols="6">
+      <v-col
+        v-for="store in filteredStores"
+        :key="store.storeId"
+        cols="6"
+      >
         <StoreListItem :store="store" />
       </v-col>
     </v-row>

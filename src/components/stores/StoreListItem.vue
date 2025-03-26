@@ -1,12 +1,19 @@
 <template>
   <v-card>
-    <v-img :src="store.imageUrl" cover height="270" />
+    <v-img
+      :src="store.imageUrl"
+      cover
+      height="270"
+    />
     <div class="d-flex flex-column">
       <v-card-title>{{ store.storeName }}</v-card-title>
       <v-card-subtitle>{{ store.address }}</v-card-subtitle>
       <v-card-text>
-        <v-icon v-for="pickupOption in store.pickupOptions" :key="pickupOption.name"
-          :icon="getIcon(pickupOption.name)" />
+        <v-icon
+          v-for="pickupOption in store.pickupOptions"
+          :key="pickupOption.name"
+          :icon="getIcon(pickupOption.name)"
+        />
       </v-card-text>
     </div>
   </v-card>
