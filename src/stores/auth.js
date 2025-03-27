@@ -10,6 +10,8 @@ const useAuthStore = defineStore('auth', {
     accessToken: null,
   }),
 
+  persist: true,
+
   actions: {
     async login(username, password) {
       try {
