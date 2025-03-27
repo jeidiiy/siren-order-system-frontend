@@ -6,7 +6,7 @@ export const BEARER_PREFIX = "Bearer ";
 
 const useAuthStore = defineStore('auth', {
   state: () => ({
-    user: {username: null, nickname: null, realname: null},
+    username: null,
     accessToken: null,
   }),
 
@@ -17,8 +17,7 @@ const useAuthStore = defineStore('auth', {
       try {
         const res = await api.post("/api/v1/users/authenticate", {username, password});
         this.accessToken = res.headers['authorization'].substring(BEARER_PREFIX.length);
-        this.user.username = username;
-        api.defaults.headers.common['Authorization'] = `${BEARER_PREFIX + this.accessToken}`;
+        this.username = username;
         return true;
       } catch (error) {
         // TODO: 에러 처리 필요
@@ -32,8 +31,9 @@ const useAuthStore = defineStore('auth', {
       try {
         await api.post("/api/v1/logout");
         this.accessToken = null;
-        this.user.username = null;
+        this.username = null;
         api.defaults.headers.common['Authorization'] = null;
+        localStorage.removeItem('auth')
         return true;
       } catch (error) {
         // TODO: 에러 처리 필요
@@ -47,8 +47,7 @@ const useAuthStore = defineStore('auth', {
       try {
         const res = await api.post('/api/v1/refresh-token');
         this.accessToken = res.headers['authorization'].substring(BEARER_PREFIX.length);
-        this.user.username = decodeJWT(this.accessToken).payload.sub;
-        api.defaults.headers.common['Authorization'] = `${BEARER_PREFIX + this.accessToken}`;
+        this.username = decodeJWT(this.accessToken).payload.sub;
         return true;
       } catch (error) {
         // TODO: 에러 처리 필요

@@ -33,7 +33,7 @@
       <v-menu v-else>
         <template #activator="{props}">
           <v-btn v-bind="props">
-            {{ authStore.user.username }}
+            {{ authStore.username }}
             <v-icon icon="mdi-menu-down" />
           </v-btn>
         </template>
@@ -73,7 +73,7 @@ const items = [
   {title: '로그아웃'}
 ];
 const callbacks = [
-  () => {}, // TODO: 개인 정보 수정 페이지로 이동하는 콜백 함수 필요
+  () => {router.push('/setting')},
   () => {
     authStore.logout();
     router.push('/');
