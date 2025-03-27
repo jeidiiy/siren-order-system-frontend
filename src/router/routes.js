@@ -5,6 +5,8 @@ import ProductView from "@/pages/ProductView.vue";
 import StoreView from "@/pages/StoreView.vue";
 import OnlyAppHeaderLayout from "@/layouts/OnlyAppHeaderLayout.vue";
 import SignupView from "@/pages/SignupView.vue";
+import SettingView from "@/pages/SettingView.vue";
+import ChangePasswordView from "@/pages/ChangePasswordView.vue";
 
 const routes = [
   {
@@ -22,7 +24,7 @@ const routes = [
       {
         path: 'products',
         component: ProductView,
-      },
+      }
     ]
   },
   {
@@ -36,6 +38,14 @@ const routes = [
       {
         path: 'signup',
         component: SignupView
+      },
+      {
+        path: 'setting',
+        component: SettingView,
+      },
+      {
+        path: 'setting/password',
+        component: ChangePasswordView
       }
     ]
   }
