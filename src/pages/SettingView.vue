@@ -66,6 +66,7 @@
 
 <script setup>
 import {changeRealnameAndNickname, getMyInfo} from "@/apis/user";
+import useAuthStore from "@/stores/auth";
 
 const realname = ref('');
 const realnameRule = [
@@ -90,9 +91,7 @@ const disabled = ref(true);
 const loading = ref(false);
 
 const router = useRouter();
-
-const {username, accessToken} = JSON.parse(localStorage.getItem('auth'));
-api.defaults.headers.common['Authorization'] = "Bearer " + accessToken;
+const {username, accessToken} = storeToRefs(useAuthStore());
 
 async function getUserInfo() {
   try {
