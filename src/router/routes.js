@@ -42,10 +42,16 @@ const routes = [
       {
         path: 'setting',
         component: SettingView,
+        meta: {
+          requiresAuth: true,
+        }
       },
       {
         path: 'setting/password',
-        component: ChangePasswordView
+        component: ChangePasswordView,
+        meta: {
+          requiresAuth: true,
+        }
       }
     ]
   }
