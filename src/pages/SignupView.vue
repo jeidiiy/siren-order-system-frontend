@@ -57,7 +57,7 @@
 </template>
 
 <script setup>
-import api from "@/apis/config";
+import {signup} from "@/apis/user";
 import useAuthStore from "@/stores/auth";
 
 const username = ref('');
@@ -104,7 +104,7 @@ const router = useRouter();
 async function submit() {
   try {
     loading.value = true;
-    await api.post('/api/v1/users', {username: username.value, password: password.value, realname: realname.value, nickname: nickname.value});
+    await signup(username.value, password.value, realname.value, nickname.value);
     window.alert("회원가입에 성공했습니다!!");
     // 회원가입 성공 시 자동 로그인 처리 후 메인 화면으로 이동
     await authStore.login(username.value, password.value);

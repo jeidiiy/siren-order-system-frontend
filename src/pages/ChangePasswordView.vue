@@ -57,7 +57,7 @@
 </template>
 
 <script setup>
-import api from "@/apis/config";
+import {changePassword} from "@/apis/user";
 import useAuthStore from "@/stores/auth";
 
 const router = useRouter();
@@ -83,9 +83,6 @@ const passwordCheckRule = [
   }
 ];
 
-const {username, accessToken} = JSON.parse(localStorage.getItem('auth'));
-api.defaults.headers.common['Authorization'] = "Bearer " + accessToken;
-
 const formRef = ref(null);
 
 onMounted(() => {
@@ -98,7 +95,7 @@ async function submit() {
   if (isValid) {
     try {
       loading.value = true;
-      await api.patch(`/api/v1/users/${username}/password`, {oldPassword: oldPassword.value, newPassword: newPassword.value});
+      await changePassword(authStore.username, oldPassword.value, newPassword.value, authStore.accessToken);
       window.alert("비밀번호를 변경했습니다. 새 비밀번호로 다시 로그인 해주세요.");
       await authStore.logout();
       // 회원 정보 변경 성공 시 메인 화면으로 강제 이동

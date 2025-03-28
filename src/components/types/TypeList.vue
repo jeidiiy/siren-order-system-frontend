@@ -13,9 +13,8 @@
 </template>
 
 <script setup>
-import api from '@/apis/config';
 import useCategoryStore from "@/stores/category";
-import {storeToRefs} from "pinia";
+import {getTypes} from "@/apis/type";
 
 const route = useRoute();
 const types = ref([]);
@@ -24,8 +23,7 @@ const {category} = storeToRefs(categoryStore);
 
 async function fetchTypes(category) {
   try {
-    const res = await api.get(`/api/v1/types/${category}`);
-    types.value = res.data;
+    types.value = await getTypes(category);
   } catch (error) {
     throw new Error(error);
   }

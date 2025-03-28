@@ -65,7 +65,7 @@
 </template>
 
 <script setup>
-import api from "@/apis/config";
+import {changeRealnameAndNickname, getMyInfo} from "@/apis/user";
 
 const realname = ref('');
 const realnameRule = [
@@ -96,10 +96,9 @@ api.defaults.headers.common['Authorization'] = "Bearer " + accessToken;
 
 async function getUserInfo() {
   try {
-    const res = await api.get(`/api/v1/users/${username}`);
-    const userInfo = res.data;
-    nickname.value = userInfo.nickname;
-    realname.value = userInfo.realname;
+    const user = await getMyInfo(username.value, accessToken.value);
+    nickname.value = user.nickname;
+    realname.value = user.realname;
   } catch (error) {
     console.error(error);
   }
@@ -118,7 +117,7 @@ async function submit() {
   if (isValid) {
     try {
       loading.value = true;
-      await api.patch(`/api/v1/users/${username}`, {realname: realname.value, nickname: nickname.value});
+      await changeRealnameAndNickname(username.value, realname.value, nickname.value, accessToken.value);
       window.alert("회원정보를 변경했습니다.");
       // 회원 정보 변경 성공 시 메인 화면으로 강제 이동
       router.push('/');
