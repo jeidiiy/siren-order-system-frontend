@@ -13,12 +13,11 @@
 </template>
 
 <script setup>
-import api from '@/apis/config';
+import {getProducts} from "@/apis/product";
 
 const products = ref(null);
 const route = useRoute();
 const query = route.query;
 
-const res = await api.get(`/api/v1/products?typeId=${query.typeId}`);
-products.value = res.data;
+products.value = await getProducts(query.typeId);
 </script>

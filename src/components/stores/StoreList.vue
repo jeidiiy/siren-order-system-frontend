@@ -12,12 +12,11 @@
   </v-container>
 </template>
 <script setup>
-import api from "@/apis/config";
+import {getStores} from "@/apis/store";
 
 const stores = ref([]);
 
-const res = await api.get('/api/v1/stores');
-stores.value = res.data;
+stores.value = await getStores();
 
 const filteredStores = computed(() =>
   stores.value.map(store => ({
