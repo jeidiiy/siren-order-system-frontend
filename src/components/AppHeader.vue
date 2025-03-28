@@ -14,7 +14,7 @@
             :class="isHovering && 'cursor-pointer'"
             @click="() => {
               router.push('/');
-              categoryStore.changeCategory('beverage');
+              changeCategory('beverage');
             }"
           >
             사이렌 오더
@@ -65,12 +65,16 @@ import useCategoryStore from "@/stores/category";
 import LoginForm from "./LoginForm.vue";
 
 const dialog = ref(false);
+
 const router = useRouter();
+
 const authStore = useAuthStore();
 const {username, accessToken} = storeToRefs(authStore);
 const {logout} = authStore;
 
 const categoryStore = useCategoryStore();
+const {changeCategory} = categoryStore;
+
 const items = [
   {title: '설정'},
   {title: '로그아웃'}
