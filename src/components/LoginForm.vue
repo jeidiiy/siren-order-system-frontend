@@ -6,7 +6,7 @@
       max-width="448"
       rounded="lg"
       @keydown.enter="() => {
-        if (authStore.login(username, password)) {
+        if (login(username, password)) {
           closeModal();
         }
       }"
@@ -52,7 +52,7 @@
         variant="tonal"
         block
         @click="() => {
-          if (authStore.login(username, password)) {
+          if (login(username, password)) {
             closeModal();
           }
         }"
@@ -75,14 +75,14 @@
 import useAuthStore from "@/stores/auth";
 const authStore = useAuthStore();
 
-const emit = defineEmits(['close']);
-
-function closeModal() {
-  emit('close');
-}
+const {login} = authStore;
 
 const visible = ref(false);
 const username = ref('');
 const password = ref('')
 
+const emit = defineEmits(['close']);
+function closeModal() {
+  emit('close');
+}
 </script>

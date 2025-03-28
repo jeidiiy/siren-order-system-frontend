@@ -99,6 +99,7 @@ const visible = ref(false);
 const loading = ref(false);
 
 const authStore = useAuthStore();
+const {login} = authStore;
 const router = useRouter();
 
 async function submit() {
@@ -107,7 +108,7 @@ async function submit() {
     await signup(username.value, password.value, realname.value, nickname.value);
     window.alert("회원가입에 성공했습니다!!");
     // 회원가입 성공 시 자동 로그인 처리 후 메인 화면으로 이동
-    await authStore.login(username.value, password.value);
+    await login(username.value, password.value);
     router.push('/');
   } catch (error) {
     // TODO: 에러 처리 필요

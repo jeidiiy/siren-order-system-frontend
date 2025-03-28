@@ -14,7 +14,7 @@
             :class="isHovering && 'cursor-pointer'"
             @click="() => {
               router.push('/');
-              categoryStore.changeCategory('beverage');
+              changeCategory('beverage');
             }"
           >
             사이렌 오더
@@ -22,7 +22,7 @@
         </template>
       </v-hover>
       <v-btn
-        v-if="!authStore.accessToken"
+        v-if="!accessToken"
         append-icon="mdi-login"
         @click="dialog = true"
       >
@@ -33,7 +33,7 @@
       <v-menu v-else>
         <template #activator="{props}">
           <v-btn v-bind="props">
-            {{ authStore.username }}
+            {{ username }}
             <v-icon icon="mdi-menu-down" />
           </v-btn>
         </template>
@@ -65,17 +65,24 @@ import useCategoryStore from "@/stores/category";
 import LoginForm from "./LoginForm.vue";
 
 const dialog = ref(false);
+
 const router = useRouter();
+
 const authStore = useAuthStore();
+const {username, accessToken} = storeToRefs(authStore);
+const {logout} = authStore;
+
 const categoryStore = useCategoryStore();
+const {changeCategory} = categoryStore;
+
 const items = [
   {title: '설정'},
   {title: '로그아웃'}
 ];
 const callbacks = [
-  () => {router.push('/setting')},
+  () => {router.push('/setting');},
   () => {
-    authStore.logout();
+    logout();
     router.push('/');
   }
 ];

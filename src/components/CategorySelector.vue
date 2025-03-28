@@ -9,19 +9,28 @@
         >
           <v-btn
             value="beverage"
-            @click="$router.push('/types?category=beverage')"
+            @click="() => {
+              changeCategory('beverage');
+              $router.push('/types?category=beverage');
+            }"
           >
             음료
           </v-btn>
           <v-btn
             value="food"
-            @click="$router.push('/types?category=food')"
+            @click="() => {
+              changeCategory('food');
+              $router.push('/types?category=food');
+            }"
           >
             푸드
           </v-btn>
           <v-btn
             value="merchandise"
-            @click="$router.push('/types?category=merchandise')"
+            @click="() => {
+              changeCategory('merchandise');
+              $router.push('/types?category=merchandise');
+            }"
           >
             상품
           </v-btn>
@@ -33,8 +42,8 @@
 
 <script setup>
 import useCategoryStore from "@/stores/category";
-import {storeToRefs} from "pinia";
 
 const categoryStore = useCategoryStore();
 const {category} = storeToRefs(categoryStore);
+const {changeCategory} = categoryStore;
 </script>

@@ -16,7 +16,6 @@
 import useCategoryStore from "@/stores/category";
 import {getTypes} from "@/apis/type";
 
-const route = useRoute();
 const types = ref([]);
 const categoryStore = useCategoryStore();
 const {category} = storeToRefs(categoryStore);
@@ -29,13 +28,9 @@ async function fetchTypes(category) {
   }
 }
 
-onMounted(async () => {
-  categoryStore.changeCategory(route.query.category || 'beverage');
-
-  await nextTick(() => {
-    fetchTypes(category.value);
-  })
-})
+onMounted(() => {
+  fetchTypes(category.value);
+});
 
 function getCategory(route) {
   return route.query.category;
