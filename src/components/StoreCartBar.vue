@@ -4,18 +4,24 @@
     color="primary"
     location="bottom"
   >
-    <v-container
-      class="wrapper d-flex justify-space-between align-center"
-    >
-      <div
-        class="button-wrapper"
-      >
+    <v-container class="wrapper d-flex justify-space-between align-center">
+      <div class="button-wrapper">
         <v-btn
           class="text-h6"
           width="100%"
           @click="$router.push('/stores')"
         >
-          여기를 클릭해서 주문할 매장을 선택해주세요
+          <div v-if="!store">
+            여기를 클릭해서 주문할 매장을 선택해주세요
+          </div>
+          <div v-else>
+            <span>
+              {{ store.storeName }}
+            </span>
+            <span class="opacity-70">
+              ({{ store.pickupOption }})
+            </span>
+          </div>
         </v-btn>
       </div>
       <v-btn>
@@ -26,6 +32,10 @@
 </template>
 
 <script setup>
+import useStoreStore from "@/stores/store";
+
+const storeStore = useStoreStore();
+const {store} = storeToRefs(storeStore);
 </script>
 
 <style lang="scss" scoped>
