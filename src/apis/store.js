@@ -8,3 +8,12 @@ export async function getStores() {
     throw new Error(error);
   }
 }
+
+export async function getStoreById(id) {
+  try {
+    const res = await api.get(`/api/v1/stores/${id}`);
+    return res.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
