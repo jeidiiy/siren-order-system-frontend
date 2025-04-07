@@ -59,6 +59,7 @@
 <script setup>
 import {changePassword} from "@/apis/user";
 import useAuthStore from "@/stores/auth";
+import useAlertStore from "@/stores/alert";
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -89,6 +90,9 @@ onMounted(() => {
   formRef.value.focus();
 });
 
+const alertStore = useAlertStore();
+const {showAlert} = alertStore;
+
 async function submit() {
   const {valid: isValid} = await formRef.value.validate();
 
@@ -96,7 +100,7 @@ async function submit() {
     try {
       loading.value = true;
       await changePassword(authStore.username, oldPassword.value, newPassword.value, authStore.accessToken);
-      window.alert("비밀번호를 변경했습니다. 새 비밀번호로 다시 로그인 해주세요.");
+      showAlert("비밀번호를 변경했습니다. 새 비밀번호로 다시 로그인 해주세요.", 'success');
       await authStore.logout();
       // 회원 정보 변경 성공 시 메인 화면으로 강제 이동
       router.push('/');

@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router/auto';
 import routes from "./routes";
+import useAlertStore from "@/stores/alert";
 import useAuthStore from "@/stores/auth";
 
 const router = createRouter({
@@ -9,9 +10,12 @@ const router = createRouter({
 
 router.beforeEach((to) => {
   const authStore = useAuthStore();
+  const alertStore = useAlertStore();
+  const {showAlert} = alertStore;
+
   if (to.meta.requiresAuth) {
     if (!authStore.accessToken) {
-      window.alert('로그인 후 이용바랍니다.')
+      showAlert('로그인 후 이용바랍니다', 'warning')
       return {
         path: '/'
       };

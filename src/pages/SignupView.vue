@@ -58,6 +58,7 @@
 
 <script setup>
 import {signup} from "@/apis/user";
+import useAlertStore from "@/stores/alert";
 import useAuthStore from "@/stores/auth";
 
 const username = ref('');
@@ -102,11 +103,14 @@ const authStore = useAuthStore();
 const {login} = authStore;
 const router = useRouter();
 
+const alertStore = useAlertStore();
+const {showAlert} = alertStore;
+
 async function submit() {
   try {
     loading.value = true;
     await signup(username.value, password.value, realname.value, nickname.value);
-    window.alert("회원가입에 성공했습니다!!");
+    showAlert("회원가입에 성공했습니다!!", 'success');
     // 회원가입 성공 시 자동 로그인 처리 후 메인 화면으로 이동
     await login(username.value, password.value);
     router.push('/');
