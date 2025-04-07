@@ -66,6 +66,7 @@
 
 <script setup>
 import {changeRealnameAndNickname, getMyInfo} from "@/apis/user";
+import useAlertStore from "@/stores/alert";
 import useAuthStore from "@/stores/auth";
 
 const realname = ref('');
@@ -110,6 +111,9 @@ onMounted(() => {
   getUserInfo();
 });
 
+const alertStore = useAlertStore();
+const {showAlert} = alertStore;
+
 async function submit() {
   const {valid: isValid} = await formRef.value.validate();
 
@@ -117,7 +121,7 @@ async function submit() {
     try {
       loading.value = true;
       await changeRealnameAndNickname(username.value, realname.value, nickname.value, accessToken.value);
-      window.alert("회원정보를 변경했습니다.");
+      showAlert("회원정보를 변경했습니다", 'success');
       // 회원 정보 변경 성공 시 메인 화면으로 강제 이동
       router.push('/');
     } catch (error) {

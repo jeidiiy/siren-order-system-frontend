@@ -38,7 +38,7 @@
                 class="pa-5 my-5 border-md rounded"
                 :class="isHovering ? 'cursor-pointer opacity-100' : 'opacity-70'"
                 @click="() => {
-                  showAlert(store.storeName, option.name);
+                  showAlert(`${store.storeName} (${option.name})을/를 선택하셨습니다!`, 'success');
                   changeStore({...store, pickupOption: option.name});
                   closeModal();
                   $router.push('/')
@@ -64,6 +64,7 @@
 
 <script setup>
 import {getStoreById} from "@/apis/store";
+import useAlertStore from "@/stores/alert";
 import useStoreStore from "@/stores/store";
 
 const storeProps = defineProps({
@@ -89,9 +90,8 @@ const store = ref({});
 const storeStore = useStoreStore();
 const {changeStore} = storeStore;
 
-function showAlert(storeName, pickupOption) {
-  window.alert(`${storeName} (${pickupOption})을 선택하셨습니다!`);
-}
+const alertStore = useAlertStore();
+const {showAlert} = alertStore;
 
 onMounted(async () => {
   store.value = await getStoreById(storeProps.id);
