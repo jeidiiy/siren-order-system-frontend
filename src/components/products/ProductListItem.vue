@@ -1,30 +1,47 @@
 <template>
-  <v-card
-    hover
-    max-width="270"
-    height="270"
-    class="mx-auto"
-  >
-    <v-img
-      color="surface-variant"
-      height="150"
-      src="https://cdn.pixabay.com/photo/2023/11/14/17/58/coffee-8388244_640.jpg"
-      cover
-    />
-    <v-card-title>
-      {{ krName }}
-    </v-card-title>
-    <v-card-subtitle>
-      {{ enName }}
-    </v-card-subtitle>
-    <v-card-text>
-      &#8361;{{ basePrice.toLocaleString() }}
-    </v-card-text>
-  </v-card>
+  <v-hover v-slot="{isHovering, props}">
+    <v-card
+      v-bind="props"
+      max-width="270"
+      height="270"
+      class="mx-auto"
+    >
+      <v-img
+        color="surface-variant"
+        height="150"
+        src="https://cdn.pixabay.com/photo/2023/11/14/17/58/coffee-8388244_640.jpg"
+        cover
+      />
+      <v-card-title>
+        {{ krName }}
+      </v-card-title>
+      <v-card-subtitle class="text-no-wrap">
+        {{ enName }}
+      </v-card-subtitle>
+      <v-card-text>
+        &#8361;{{ basePrice.toLocaleString() }}
+      </v-card-text>
+      <div
+        v-if="isHovering"
+        class="d-flex justify-center align-center text-h4"
+        style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); color: white; cursor: pointer;"
+        @click="() => {
+          addProduct({id, krName, basePrice})
+          showAlert('장바구니에 해당 상품을 추가하였습니다!', 'info')
+        }"
+      >
+        담기
+      </div>
+    </v-card>
+  </v-hover>
 </template>
 
 <script setup>
-const props = defineProps({
+import useAlertStore from "@/stores/alert";
+import useCartStore from "@/stores/cart";
+
+const {addProduct} = useCartStore();
+const productProps = defineProps({
   info: {
     type: {
       id: Number,
@@ -38,11 +55,11 @@ const props = defineProps({
   }
 });
 
-const {krName, enName, basePrice} = props.info;
+const {id, krName, enName, basePrice} = productProps.info;
+
+const alertStore = useAlertStore();
+const {showAlert} = alertStore;
 
 </script>
 <style scoped>
-.padding-top {
-  padding-top: 100%;
-}
 </style>

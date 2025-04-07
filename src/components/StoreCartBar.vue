@@ -24,18 +24,46 @@
           </div>
         </v-btn>
       </div>
-      <v-btn>
-        <v-icon>mdi-basket-plus-outline</v-icon>
-      </v-btn>
+      <v-dialog
+        v-model="dialog"
+        scrollable
+        max-width="600px"
+        transition="dialog-transition"
+      >
+        <template #activator="{props: activatorProps}">
+          <v-btn v-bind="activatorProps">
+            <v-badge
+              v-if="totalQuantity > 0"
+              :content="totalQuantity"
+            >
+              <v-icon>
+                mdi-basket-plus-outline
+              </v-icon>
+            </v-badge>
+            <v-icon v-else>
+              mdi-basket-plus-outline
+            </v-icon>
+          </v-btn>
+        </template>
+        <template #default>
+          <Cart @close="dialog = false" />
+        </template>
+      </v-dialog>
     </v-container>
   </v-app-bar>
 </template>
 
 <script setup>
+import useCartStore from "@/stores/cart";
 import useStoreStore from "@/stores/store";
+
+const cartStore = useCartStore();
+const {totalQuantity} = storeToRefs(cartStore);
 
 const storeStore = useStoreStore();
 const {store} = storeToRefs(storeStore);
+
+const dialog = ref(false);
 </script>
 
 <style lang="scss" scoped>
