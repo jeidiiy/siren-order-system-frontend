@@ -24,6 +24,13 @@ export default [
     },
     rules: {
       'vue/multi-word-component-names': 'off',
+      'no-unused-vars': ['warn', {
+        vars: 'all',
+        args: 'after-used',
+        ignoreRestSiblings: true,       // 구조분해 후 남은 rest만 써도 허용
+        varsIgnorePattern: '^_',        // 변수명이 _로 시작하면 무시
+        argsIgnorePattern: '^_',        // 함수 인자도 _로 시작하면 무시
+      }],
     },
   },
 ];
