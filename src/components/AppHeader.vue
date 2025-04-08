@@ -77,10 +77,12 @@ const {changeCategory} = categoryStore;
 
 const items = [
   {title: '설정'},
+  {title: '주문내역'},
   {title: '로그아웃'}
 ];
 const callbacks = [
   () => {router.push('/setting');},
+  () => {router.push('/orders');},
   () => {
     logout();
     router.push('/');
