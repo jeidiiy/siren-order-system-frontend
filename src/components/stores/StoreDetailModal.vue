@@ -81,7 +81,7 @@ const pickupOptionIcons = {
   '딜리버스': 'mdi-motorbike'
 };
 
-const emits = defineEmits(['close', 'alert']);
+const emits = defineEmits(['close']);
 function closeModal() {
   emits('close');
 }

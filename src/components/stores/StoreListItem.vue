@@ -23,11 +23,10 @@
         </div>
       </v-card>
     </template>
-    <template #default="{isActive}">
+    <template #default>
       <StoreDetailModal
         :id="store.storeId"
-        @close="isActive.value = false"
-        @alert="alert = true"
+        @close="openModal = false"
       />
     </template>
   </v-dialog>
