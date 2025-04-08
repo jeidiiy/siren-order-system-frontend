@@ -62,7 +62,6 @@
 <script setup>
 import useAuthStore from "@/stores/auth";
 import useCategoryStore from "@/stores/category";
-import LoginForm from "./LoginForm.vue";
 
 const dialog = ref(false);
 
