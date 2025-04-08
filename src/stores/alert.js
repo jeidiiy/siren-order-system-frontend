@@ -3,7 +3,7 @@ import {defineStore} from 'pinia';
 const useAlertStore = defineStore('alert', () => {
   const alert = ref(false);
   const msg = ref("");
-  const type = ref("");
+  const type = ref("success");
   const progress = ref(100);
   let intervalId = null;
 

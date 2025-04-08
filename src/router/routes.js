@@ -7,6 +7,7 @@ import OnlyAppHeaderLayout from "@/layouts/OnlyAppHeaderLayout.vue";
 import SignupView from "@/pages/SignupView.vue";
 import SettingView from "@/pages/SettingView.vue";
 import ChangePasswordView from "@/pages/ChangePasswordView.vue";
+import OrderListView from "@/pages/OrderListView.vue";
 
 const routes = [
   {
@@ -38,6 +39,13 @@ const routes = [
       {
         path: 'signup',
         component: SignupView
+      },
+      {
+        path: 'orders',
+        component: OrderListView,
+        meta: {
+          requiresAuth: true,
+        }
       },
       {
         path: 'setting',
