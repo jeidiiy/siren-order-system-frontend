@@ -96,6 +96,7 @@ async function handleOrder() {
     // 상품 id 와 주문 수량만 요청에 담기 위해 매핑 처리
     await createOrder(store.value, (cart.value.map(({basePrice, krName, ...rest}) => rest)), accessToken.value);
     closeModal();
+    removeAll();
     showAlert('주문에 성공하였습니다!', 'success');
   } catch (error) {
     console.error(error);
