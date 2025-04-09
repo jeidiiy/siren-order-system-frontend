@@ -62,6 +62,7 @@
 <script setup>
 import useAuthStore from "@/stores/auth";
 import useCategoryStore from "@/stores/category";
+import useCartStore from "@/stores/cart";
 
 const dialog = ref(false);
 
@@ -74,6 +75,9 @@ const {logout} = authStore;
 const categoryStore = useCategoryStore();
 const {changeCategory} = categoryStore;
 
+const cartStore = useCartStore();
+const {removeAll} = cartStore;
+
 const items = [
   {title: '설정'},
   {title: '주문내역'},
@@ -84,6 +88,7 @@ const callbacks = [
   () => {router.push('/orders');},
   () => {
     logout();
+    removeAll();
     router.push('/');
   }
 ];
