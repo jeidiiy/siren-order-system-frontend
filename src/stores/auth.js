@@ -43,7 +43,11 @@ const useAuthStore = defineStore('auth', () => {
 
   async function silentRefresh() {
     try {
-      const res = await api.post('/api/v1/refresh-token');
+      const res = await api.post('/api/v1/refresh-token', null, {
+        headers: {
+          "Authorization": BEARER_PREFIX + accessToken.value
+        }
+      });
       accessToken.value = res.headers['authorization'].substring(BEARER_PREFIX.length);
       username.value = decodeJWT(accessToken.value).payload.sub;
       return true;
