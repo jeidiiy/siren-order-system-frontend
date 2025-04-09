@@ -44,20 +44,26 @@
       >
         모두 지우기
       </v-btn>
+      <div
+        v-if="store"
+        class="text-h6 mt-5"
+      >
+        {{ `주문할 매장: ${store.storeName}` }}
+      </div>
       <div class="text-h5 mt-5">
         총 금액: &#8361; {{ totalPrice.toLocaleString() }}
       </div>
     </v-card-text>
     <v-card-actions>
       <v-btn
-        :disabled="loading || cart.length === 0"
+        :disabled="loading || cart.length === 0 || !store"
         :loading
         color="primary"
         block
         variant="flat"
         @click="handleOrder"
       >
-        주문하기
+        {{ store ? '주문하기' : '먼저 주문할 매장을 선택해주세요' }}
       </v-btn>
     </v-card-actions>
   </v-card>
