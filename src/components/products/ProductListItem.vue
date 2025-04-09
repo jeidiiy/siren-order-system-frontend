@@ -26,8 +26,12 @@
         class="d-flex justify-center align-center text-h4"
         style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); color: white; cursor: pointer;"
         @click="() => {
-          addProduct({id, krName, basePrice})
-          showAlert('장바구니에 해당 상품을 추가하였습니다!', 'info')
+          if (accessToken) {
+            addProduct({id, krName, basePrice})
+            showAlert('장바구니에 해당 상품을 추가하였습니다!', 'info')
+          } else {
+            showAlert('로그인 후 이용해주세요!', 'warning')
+          }
         }"
       >
         담기
@@ -38,6 +42,7 @@
 
 <script setup>
 import useAlertStore from "@/stores/alert";
+import useAuthStore from "@/stores/auth";
 import useCartStore from "@/stores/cart";
 
 const {addProduct} = useCartStore();
@@ -59,6 +64,9 @@ const {id, krName, enName, basePrice} = productProps.info;
 
 const alertStore = useAlertStore();
 const {showAlert} = alertStore;
+
+const authStore = useAuthStore();
+const {accessToken} = storeToRefs(authStore);
 
 </script>
 <style scoped>
