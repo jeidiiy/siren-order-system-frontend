@@ -8,13 +8,18 @@ const router = createRouter({
   routes
 });
 
-router.beforeEach((to) => {
+router.beforeEach(async (to) => {
   const authStore = useAuthStore();
   const alertStore = useAlertStore();
+  const {accessToken, silentRefresh} = authStore;
   const {showAlert} = alertStore;
 
+  if (accessToken) {
+    await silentRefresh();
+  }
+
   if (to.meta.requiresAuth) {
-    if (!authStore.accessToken) {
+    if (!accessToken) {
       showAlert('로그인 후 이용바랍니다', 'warning')
       return {
         path: '/'
