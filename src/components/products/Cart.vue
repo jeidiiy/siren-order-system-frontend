@@ -10,26 +10,35 @@
         variant="text"
       >
         <template #prepend>
-          <v-icon @click="removeProduct(product.id)">
+          <v-icon
+            :disabled="cartLoading"
+            @click="removeProduct(username, product.cartId, accessToken)"
+          >
             mdi-close-circle
           </v-icon>
         </template>
         <div class="d-flex justify-space-between">
           <v-list-item-title>
-            {{ product.krName }}
+            {{ product.productKrName }}
           </v-list-item-title>
           <div class="d-flex">
-            <v-icon @click="reduceProductQuantity(product.id)">
+            <v-icon
+              :disabled="cartLoading"
+              @click="product.quantity > 1 && upsertProduct(username, accessToken, {cartId: product.cartId, productId: product.productId, quantity: product.quantity - 1})"
+            >
               mdi-minus-circle
             </v-icon>
             <div class="quantity">
               {{ product.quantity }}
             </div>
-            <v-icon @click="addProduct(product)">
+            <v-icon
+              :disabled="cartLoading"
+              @click="upsertProduct(username, accessToken, {cartId: product.cartId, productId: product.productId, quantity: product.quantity + 1})"
+            >
               mdi-plus-circle
             </v-icon>
             <div class="price">
-              &#8361; {{ (product.basePrice * product.quantity).toLocaleString() }}
+              &#8361; {{ (product.price * product.quantity).toLocaleString() }}
             </div>
           </div>
         </div>
@@ -37,10 +46,12 @@
     </v-list>
     <v-card-text class="text-right">
       <v-btn
+        :loading="cartLoading"
+        :disabled="cartLoading"
         color="warning"
         prepend-icon="mdi-close-circle"
         rounded
-        @click="removeAll"
+        @click="clearCart(username, accessToken)"
       >
         모두 지우기
       </v-btn>
@@ -75,6 +86,7 @@ import useAuthStore from "@/stores/auth";
 import useCartStore from "@/stores/cart";
 import useStoreStore from "@/stores/store";
 import {createOrder} from "@/apis/order";
+import {onMounted} from "vue";
 
 const emit = defineEmits(['close']);
 function closeModal() {
@@ -82,27 +94,31 @@ function closeModal() {
 }
 
 const cartStore = useCartStore();
-const {cart, totalPrice} = storeToRefs(cartStore);
-const {addProduct, reduceProductQuantity, removeProduct, removeAll} = cartStore;
+const {cart, loading: cartLoading, totalPrice} = storeToRefs(cartStore);
+const {getCart, upsertProduct, removeProduct, clearCart} = cartStore;
 
 const storeStore = useStoreStore();
 const {store} = storeToRefs(storeStore);
 
 const authStore = useAuthStore();
-const {accessToken} = storeToRefs(authStore);
+const {username, accessToken} = storeToRefs(authStore);
 
 const alertStore = useAlertStore();
 const {showAlert} = alertStore;
 
 const loading = ref(false);
 
+onMounted(async () => {
+  await getCart(username.value, accessToken.value);
+});
+
 async function handleOrder() {
   try {
     loading.value = true;
     // 상품 id 와 주문 수량만 요청에 담기 위해 매핑 처리
-    await createOrder(store.value, (cart.value.map(({basePrice, krName, ...rest}) => rest)), accessToken.value);
+    await createOrder(store.value, (cart.value.map(({price, productKrName, cartId, ...rest}) => ({id: rest.productId, quantity: rest.quantity}))), accessToken.value);
+    await clearCart(username.value, accessToken.value);
     closeModal();
-    removeAll();
     showAlert('주문에 성공하였습니다!', 'success');
   } catch (error) {
     console.error(error);

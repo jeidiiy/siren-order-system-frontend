@@ -5,6 +5,7 @@
       max-width="270"
       height="270"
       class="mx-auto"
+      :loading="loading"
     >
       <v-img
         color="surface-variant"
@@ -24,13 +25,19 @@
       <div
         v-if="isHovering"
         class="d-flex justify-center align-center text-h4"
+        :class="loading && 'disabled-click'"
         style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); color: white; cursor: pointer;"
-        @click="() => {
+        @click="async () => {
           if (accessToken) {
-            addProduct({id, krName, basePrice})
-            showAlert('장바구니에 해당 상품을 추가하였습니다!', 'info')
+            const product = cart.find((product) => product.productId === id);
+            if (product) {
+              await upsertProduct(username, accessToken, {cartId: product.cartId, productId: id, quantity: product.quantity + 1});
+            } else {
+              await upsertProduct(username, accessToken, {cartId: null, productId: id, quantity: null});
+            }
+            showAlert('장바구니에 해당 상품을 추가하였습니다!', 'info');
           } else {
-            showAlert('로그인 후 이용해주세요!', 'warning')
+            showAlert('로그인 후 이용해주세요!', 'warning');
           }
         }"
       >
@@ -45,7 +52,9 @@ import useAlertStore from "@/stores/alert";
 import useAuthStore from "@/stores/auth";
 import useCartStore from "@/stores/cart";
 
-const {addProduct} = useCartStore();
+const cartStore = useCartStore();
+const {cart, loading} = storeToRefs(cartStore);
+const {upsertProduct} = cartStore;
 const productProps = defineProps({
   info: {
     type: {
@@ -66,8 +75,11 @@ const alertStore = useAlertStore();
 const {showAlert} = alertStore;
 
 const authStore = useAuthStore();
-const {accessToken} = storeToRefs(authStore);
+const {username, accessToken} = storeToRefs(authStore);
 
 </script>
 <style scoped>
+.disabled-click {
+  pointer-events: none;
+}
 </style>

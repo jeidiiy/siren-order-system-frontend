@@ -5,11 +5,7 @@
       elevation="8"
       max-width="448"
       rounded="lg"
-      @keydown.enter="() => {
-        if (login(username, password)) {
-          closeModal();
-        }
-      }"
+      @keydown.enter="handleLogin"
     >
       <div class="d-flex justify-end">
         <v-btn
@@ -23,7 +19,7 @@
       </div>
 
       <v-text-field
-        v-model="username"
+        v-model="inputUsername"
         density="compact"
         placeholder="Username"
         prepend-inner-icon="mdi-account-outline"
@@ -51,11 +47,7 @@
         size="large"
         variant="tonal"
         block
-        @click="() => {
-          if (login(username, password)) {
-            closeModal();
-          }
-        }"
+        @click="handleLogin"
       >
         로그인
       </v-btn>
@@ -73,13 +65,25 @@
 </template>
 <script setup>
 import useAuthStore from "@/stores/auth";
-const authStore = useAuthStore();
+import useCartStore from "@/stores/cart";
 
+const authStore = useAuthStore();
+const {username, accessToken} = storeToRefs(authStore);
 const {login} = authStore;
 
+const cartStore = useCartStore();
+const {getCart} = cartStore;
+
 const visible = ref(false);
-const username = ref('');
-const password = ref('')
+const inputUsername = ref('');
+const password = ref('');
+
+async function handleLogin() {
+  if (await login(inputUsername.value, password.value)) {
+    await getCart(username.value, accessToken.value);
+    closeModal();
+  }
+};
 
 const emit = defineEmits(['close']);
 function closeModal() {
