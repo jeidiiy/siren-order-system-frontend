@@ -76,7 +76,7 @@ const categoryStore = useCategoryStore();
 const {changeCategory} = categoryStore;
 
 const cartStore = useCartStore();
-const {removeAll} = cartStore;
+const {clearCartOnBrowser} = cartStore;
 
 const items = [
   {title: '설정'},
@@ -88,7 +88,7 @@ const callbacks = [
   () => {router.push('/orders');},
   () => {
     logout();
-    removeAll();
+    clearCartOnBrowser();
     router.push('/');
   }
 ];
