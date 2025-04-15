@@ -16,10 +16,7 @@ const useAuthStore = defineStore('auth', () => {
       accessToken.value = res.headers['authorization'].substring(BEARER_PREFIX.length);
       username.value = inputUsername;
       return true;
-    } catch (error) {
-      // TODO: 에러 처리 필요
-      console.error(error);
-
+    } catch {
       return false;
     }
   }
