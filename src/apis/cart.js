@@ -1,4 +1,5 @@
 import api from "./config";
+import CustomError from "@/utils/CustomError";
 
 export async function get(username, accessToken) {
   try {
@@ -9,7 +10,7 @@ export async function get(username, accessToken) {
     });
     return res.data;
   } catch (error) {
-    throw new Error(error);
+    throw new CustomError(error.message, error.response.data);
   }
 }
 
@@ -22,7 +23,7 @@ export async function upsert(username, accessToken, req) {
     });
     return res.data;
   } catch (error) {
-    throw new Error(error);
+    throw new CustomError(error.message, error.response.data);
   }
 }
 
@@ -35,7 +36,7 @@ export async function remove(username, cartId, accessToken) {
     });
     return res.data;
   } catch (error) {
-    throw new Error(error);
+    throw new CustomError(error.message, error.response.data);
   }
 }
 
@@ -48,6 +49,6 @@ export async function removeAll(username, accessToken) {
     });
     return res.data;
   } catch (error) {
-    throw new Error(error);
+    throw new CustomError(error.message, error.response.data);
   }
 }

@@ -26,7 +26,9 @@
         variant="outlined"
       />
 
-      <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
+      <div
+        class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between"
+      >
         비밀번호
       </div>
 
@@ -40,6 +42,13 @@
         variant="outlined"
         @click:append-inner="visible = !visible"
       />
+
+      <div
+        v-if="isLoginError"
+        class="text-caption text-error pb-5"
+      >
+        <span>아이디 또는 비밀번호가 잘못되었습니다. 아이디와 비밀번호를 정확히 입력해 주세요.</span>
+      </div>
 
       <v-btn
         class="mb-8"
@@ -77,11 +86,16 @@ const {getCart} = cartStore;
 const visible = ref(false);
 const inputUsername = ref('');
 const password = ref('');
+const isLoginError = ref(false);
 
 async function handleLogin() {
-  if (await login(inputUsername.value, password.value)) {
+  try {
+    await login(inputUsername.value, password.value);
+    isLoginError.value = false;
     await getCart(username.value, accessToken.value);
     closeModal();
+  } catch {
+    isLoginError.value = true;
   }
 };
 

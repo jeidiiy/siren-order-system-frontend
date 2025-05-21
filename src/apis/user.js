@@ -1,10 +1,11 @@
 import api from "./config";
+import CustomError from "@/utils/CustomError";
 
 export async function signup(username, password, realname, nickname) {
   try {
     await api.post('/api/v1/users', {username, password, realname, nickname});
   } catch (error) {
-    throw new Error(error);
+    throw new CustomError(error.message, error.response.data);
   }
 }
 
@@ -17,7 +18,7 @@ export async function getMyInfo(username, accessToken) {
     });
     return res.data;
   } catch (error) {
-    throw new Error(error);
+    throw new CustomError(error.message, error.response.data);
   }
 }
 
@@ -31,7 +32,7 @@ export async function changeRealnameAndNickname(username, realname, nickname, ac
       }
     );
   } catch (error) {
-    throw new Error(error);
+    throw new CustomError(error.message, error.response.data);
   }
 }
 
@@ -45,6 +46,6 @@ export async function changePassword(username, oldPassword, newPassword, accessT
       }
     );
   } catch (error) {
-    throw new Error(error);
+    throw new CustomError(error.message, error.response.data);
   }
 }
