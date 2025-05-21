@@ -1,4 +1,5 @@
 import api from "./config";
+import CustomError from "@/utils/CustomError";
 
 export async function createOrder({storeId, pickupOption}, cart, accessToken) {
   try {
@@ -8,7 +9,7 @@ export async function createOrder({storeId, pickupOption}, cart, accessToken) {
       }
     });
   } catch (error) {
-    throw new Error(error);
+    throw new CustomError(error.message, error.response.data);
   }
 }
 
@@ -21,7 +22,7 @@ export async function getOrders(username, accessToken) {
     });
     return res.data;
   } catch (error) {
-    throw new Error(error);
+    throw new CustomError(error.message, error.response.data);
   }
 }
 
@@ -34,6 +35,6 @@ export async function getOrder(username, orderId, accessToken) {
     });
     return res.data;
   } catch (error) {
-    throw new Error(error);
+    throw new CustomError(error.message, error.response.data);
   }
 }

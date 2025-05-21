@@ -1,6 +1,7 @@
 import api from "@/apis/config";
 import {decodeJWT} from "@/utils/jwt";
 import {defineStore} from 'pinia';
+import CustomError from "@/utils/CustomError";
 
 export const BEARER_PREFIX = "Bearer ";
 
@@ -15,9 +16,8 @@ const useAuthStore = defineStore('auth', () => {
       const res = await api.post("/api/v1/users/authenticate", {username: inputUsername, password});
       accessToken.value = res.headers['authorization'].substring(BEARER_PREFIX.length);
       username.value = inputUsername;
-      return true;
-    } catch {
-      return false;
+    } catch (error) {
+      throw new CustomError(error.message, error.response.data);
     }
   }
 
@@ -29,12 +29,8 @@ const useAuthStore = defineStore('auth', () => {
       accessToken.value = null;
       username.value = null;
       localStorage.removeItem('auth');
-      return true;
     } catch (error) {
-      // TODO: 에러 처리 필요
-      console.error(error);
-
-      return false;
+      throw new CustomError(error.message, error.response.data);
     }
   }
 
@@ -47,12 +43,8 @@ const useAuthStore = defineStore('auth', () => {
       });
       accessToken.value = res.headers['authorization'].substring(BEARER_PREFIX.length);
       username.value = decodeJWT(accessToken.value).payload.sub;
-      return true;
     } catch (error) {
-      // TODO: 에러 처리 필요
-      console.error(error);
-
-      return false;
+      throw new CustomError(error.message, error.response.data);
     }
   }
 
